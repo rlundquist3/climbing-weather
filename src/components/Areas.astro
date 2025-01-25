@@ -1,0 +1,35 @@
+---
+import groupBy from "lodash/groupBy";
+import orderBy from "lodash/orderBy";
+import { areas } from "../util/areas";
+import type { Area } from "../util/areas";
+
+const groupedAreas: { [key: string]: Area[] } = groupBy(areas, "parent");
+---
+
+<div>
+  {
+    orderBy(Object.entries(groupedAreas), [0]).map(
+      ([parent, areas]: [string, Area[]]) => (
+        <div>
+          {parent !== "undefined" && <strong>{parent}</strong>}
+          <ul>
+            {areas.map(({ id, name, parent }) => (
+              <li>
+                <a href={`/area/${id}`}>{name}</a>
+              </li>
+            ))}
+          </ul>
+          <hr />
+        </div>
+      )
+    )
+  }
+</div>
+
+<style lang="scss">
+  ul {
+    li {
+    }
+  }
+</style>

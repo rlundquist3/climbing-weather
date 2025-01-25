@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+const response = await fetch(`${import.meta.env.API_URL}/api/${id}.json`);
+const { area, pastWeather, forecast } = await response.json();
+
+// TODO: error handling here
+---
+
+<Layout>
+  <h1>Weather for {area.name}</h1>
+  <h3>Past 3 Days</h3>
+  <div>{JSON.stringify(pastWeather)}</div>
+  <hr />
+  <h3>Forecast</h3>
+  <div>{JSON.stringify(forecast)}</div>
+</Layout>
