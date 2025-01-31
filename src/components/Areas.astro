@@ -14,7 +14,7 @@ const groupedAreas: { [key: string]: Area[] } = groupBy(areas, "parent");
         <div>
           {parent !== "undefined" && <strong>{parent}</strong>}
           <ul>
-            {areas.map(({ id, name, parent }) => (
+            {areas.map(({ id, name }) => (
               <li>
                 <a href={`/area/${id}`}>{name}</a>
               </li>

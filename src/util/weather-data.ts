@@ -31,11 +31,13 @@ export const getPastWeather = async (
   { lat, lng }: Coordinates,
   days: number = 3
 ) => {
-  const pastNDays = [...Array(3)].map((_, i) =>
-    DateTime.now()
-      .minus({ days: i + 1 })
-      .toISODate()
-  );
+  const pastNDays = [...Array(3)]
+    .map((_, i) =>
+      DateTime.now()
+        .minus({ days: i + 1 })
+        .toISODate()
+    )
+    .reverse();
 
   const responses = await Promise.all(
     pastNDays.map((date) =>

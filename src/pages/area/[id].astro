@@ -1,4 +1,6 @@
 ---
+import PastWeatherDay from "../../components/PastWeatherDay.astro";
+import { PastWeatherDayData } from "../../util/weather-data-types";
 import Layout from "../../layouts/Layout.astro";
 
 export const prerender = false;
@@ -6,16 +8,37 @@ export const prerender = false;
 const { id } = Astro.params;
 
 const response = await fetch(`${import.meta.env.API_URL}/api/${id}.json`);
-const { area, pastWeather, forecast } = await response.json();
+const {
+  area,
+  pastWeather,
+  forecast,
+}: { area: any; pastWeather: PastWeatherDayData[]; forecast: any } =
+  await response.json(); // TODO: fix types
 
 // TODO: error handling here
+
+const totalPrecip = pastWeather.reduce(
+  (acc, day) => acc + day.precipitation.total ?? 0,
+  0
+);
 ---
 
 <Layout>
   <h1>Weather for {area.name}</h1>
   <h3>Past 3 Days</h3>
-  <div>{JSON.stringify(pastWeather)}</div>
+  <strong>total precipitation:</strong>
+  {totalPrecip}"
+  <div class="past-weather-container">
+    {pastWeather.map((day) => <PastWeatherDay data={day} />)}
+  </div>
   <hr />
   <h3>Forecast</h3>
   <div>{JSON.stringify(forecast)}</div>
 </Layout>
+
+<style lang="scss">
+  .past-weather-container {
+    display: flex;
+    flex-direction: row;
+  }
+</style>

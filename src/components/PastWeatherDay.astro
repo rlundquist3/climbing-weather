@@ -1,0 +1,39 @@
+---
+import type { PastWeatherDayData } from "../util/weather-data-types";
+import { getCardinalDirectionFromDegrees } from "../util/mappers";
+
+type Props = { data: PastWeatherDayData };
+
+const { data } = Astro.props;
+---
+
+<div class="past-weather-day-container">
+  <h3>{data.date}</h3>
+  <ul>
+    <li>
+      <strong>temprature:</strong> low: {data.temperature.min}°F, high: {
+        data.temperature.max
+      }°F
+    </li>
+    <li><strong>precipitation:</strong> {data.precipitation.total}"</li>
+    <li>
+      <strong>wind:</strong>
+      {getCardinalDirectionFromDegrees(data.wind.max.direction)}, {
+        data.wind.max.speed
+      }mph
+    </li>
+    {
+      data.humidity.afternoon && (
+        <li>
+          <strong>humidity:</strong> {data.humidity.afternoon}%
+        </li>
+      )
+    }
+  </ul>
+</div>
+
+<style lang="scss">
+  .past-weather-day-container {
+    margin-right: 1rem;
+  }
+</style>
