@@ -1,0 +1,39 @@
+---
+import type {
+  HourlyForecastItem,
+  DailyForecastItem,
+} from "../util/weather-data-types";
+import DailyForecast from "./DailyForecast.astro";
+import HourlyForecast from "./HourlyForecast.astro";
+
+type Props = { hourly: HourlyForecastItem[]; daily: DailyForecastItem[] };
+
+const { hourly, daily } = Astro.props;
+---
+
+<div class="forecast-container">
+  <h3>Forecast</h3>
+  <div class="hourly-forecast-container">
+    {hourly.slice(0, 13).map((data) => <HourlyForecast data={data} />)}
+  </div>
+  <div class="daily-forecast-container">
+    {daily.map(data => <DailyForecast data={data}) />)}
+  </div>
+</div>
+
+<style lang="scss">
+  .forecast-container {
+  }
+  .hourly-forecast-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 85%;
+    overflow-x: auto;
+  }
+  .daily-forecast-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 85%;
+    overflow-x: auto;
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+import type { HourlyForecastItem } from "../util/weather-data-types";
+import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
+import { DateTime } from "luxon";
+
+type Props = { data: HourlyForecastItem };
+
+const { data } = Astro.props;
+---
+
+<div class="hourly-forecast-item">
+  <h3>
+    {DateTime.fromSeconds(data.dt).toLocaleString(DateTime.TIME_24_SIMPLE)}
+  </h3>
+  <p>{data.weather[0].description}</p>
+  <ul>
+    <li>
+      <strong>temprature:</strong>
+      {data.temp}°F (feels like {data.feels_like}°F)
+    </li>
+    {
+      isFinite(data.rain?.["1h"]) && (
+        <li>
+          <strong>rain est:</strong> {mmToIn(data.rain["1h"])}"
+        </li>
+      )
+    }
+    {
+      isFinite(data.snow?.["1h"]) && (
+        <li>
+          <strong>snow est:</strong> {mmToIn(data.snow["1h"])}"
+        </li>
+      )
+    }
+    {
+      isFinite(data.pop) && (
+        <li>
+          <strong>probability of precipitation:</strong> {data.pop * 100}%
+        </li>
+      )
+    }
+    <li>
+      <strong>wind:</strong>
+      {getCardinalDirectionFromDegrees(data.wind_deg)}, {data.wind_speed}mph
+    </li>
+    <li>
+      <strong>humidity:</strong>
+      {data.humidity}%
+    </li>
+    <li>
+      <strong>clouds:</strong>
+      {data.clouds}%
+    </li>
+    <li>
+      <strong>uv index:</strong>
+      {data.uvi}
+    </li>
+    <li>
+      <strong>dew point:</strong>
+      {data.dew_point}°F
+    </li>
+  </ul>
+</div>
+
+<style lang="scss">
+  .hourly-forecast-item {
+    margin-right: 1rem;
+  }
+</style>

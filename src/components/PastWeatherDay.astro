@@ -7,7 +7,7 @@ type Props = { data: PastWeatherDayData };
 const { data } = Astro.props;
 ---
 
-<div class="past-weather-day-container">
+<div class="past-weather-day">
   <h3>{data.date}</h3>
   <ul>
     <li>
@@ -33,7 +33,7 @@ const { data } = Astro.props;
 </div>
 
 <style lang="scss">
-  .past-weather-day-container {
+  .past-weather-day {
     margin-right: 1rem;
   }
 </style>

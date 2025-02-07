@@ -1,0 +1,83 @@
+---
+import type { DailyForecastItem } from "../util/weather-data-types";
+import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
+import { DateTime } from "luxon";
+
+type Props = { data: DailyForecastItem };
+
+const { data } = Astro.props;
+const orderedTemperatureKeys: (keyof DailyForecastItem["temp"])[] = [
+  "min",
+  "max",
+  "morn",
+  "day",
+  "eve",
+  "night",
+];
+---
+
+<div class="daily-forecast-item">
+  <h3>{DateTime.fromSeconds(data.dt).toLocaleString(DateTime.DATE_FULL)}</h3>
+  <p>{data.weather[0].description}</p>
+  <ul>
+    <li>
+      <strong>temprature:</strong>
+      <ul>
+        {
+          orderedTemperatureKeys.map((key) => (
+            <li>
+              {key}: {data.temp[key]}°F (feels like {data.feels_like[key]}°F)
+            </li>
+          ))
+        }
+      </ul>
+    </li>
+    {
+      isFinite(data.rain) && (
+        <li>
+          <strong>rain est:</strong> {mmToIn(data.rain)}"
+        </li>
+      )
+    }
+    {
+      isFinite(data.snow) && (
+        <li>
+          <strong>snow est:</strong> {mmToIn(data.snow)}"
+        </li>
+      )
+    }
+    {
+      isFinite(data.pop) && (
+        <li>
+          <strong>probability of precipitation:</strong> {data.pop * 100}%
+        </li>
+      )
+    }
+    <li>
+      <strong>wind:</strong>
+      {getCardinalDirectionFromDegrees(data.wind_deg)}, {data.wind_speed}mph
+    </li>
+    <li>
+      <strong>humidity:</strong>
+      {data.humidity}%
+    </li>
+    <li>
+      <strong>clouds:</strong>
+      {data.clouds}%
+    </li>
+    <li>
+      <strong>uv index:</strong>
+      {data.uvi}
+    </li>
+    <li>
+      <strong>dew point:</strong>
+      {data.dew_point}°F
+    </li>
+  </ul>
+</div>
+
+<style lang="scss">
+  .daily-forecast-item {
+    margin-right: 1rem;
+  }
+</style>

@@ -6,6 +6,7 @@ import {
 } from "../../util/weather-data-types";
 import Layout from "../../layouts/Layout.astro";
 import CurrentWeather from "../../components/CurrentWeather.astro";
+import Forecast from "../../components/Forecast.astro";
 
 export const prerender = false;
 
@@ -38,7 +39,7 @@ const totalPrecip = pastWeather.reduce(
   <hr />
   <CurrentWeather data={forecast.current} />
   <hr />
-  <div>{JSON.stringify(forecast)}</div>
+  <Forecast hourly={forecast.hourly} daily={forecast.daily} />
 </Layout>
 
 <style lang="scss">

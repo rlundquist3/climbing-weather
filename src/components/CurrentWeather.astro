@@ -1,0 +1,65 @@
+---
+import type { CurrentWeatherData } from "../util/weather-data-types";
+import { getCardinalDirectionFromDegrees } from "../util/mappers";
+
+type Props = { data: CurrentWeatherData };
+
+const { data } = Astro.props;
+---
+
+<div class="current-weather-container">
+  <h3>Current</h3>
+  <p>{data.weather[0].description}</p>
+  <ul>
+    <li>
+      <strong>temprature:</strong>
+      {data.temp}°F (feels like {data.feels_like}°F)
+    </li>
+    {
+      isFinite(data.rain?.["1h"]) && (
+        <li>
+          <strong>rain last hour:</strong> {data.rain["1h"]}"
+        </li>
+      )
+    }
+    {
+      isFinite(data.snow?.["1h"]) && (
+        <li>
+          <strong>snow last hour:</strong> {data.snow["1h"]}"
+        </li>
+      )
+    }
+    {
+      isFinite(data.pop) && (
+        <li>
+          <strong>probability of precipitation:</strong> {data.pop}"
+        </li>
+      )
+    }
+    <li>
+      <strong>wind:</strong>
+      {getCardinalDirectionFromDegrees(data.wind_deg)}, {data.wind_speed}mph
+    </li>
+    <li>
+      <strong>humidity:</strong>
+      {data.humidity}%
+    </li>
+    <li>
+      <strong>clouds:</strong>
+      {data.clouds}%
+    </li>
+    <li>
+      <strong>uv index:</strong>
+      {data.uvi}
+    </li>
+    <li>
+      <strong>dew point:</strong>
+      {data.dew_point}°F
+    </li>
+  </ul>
+</div>
+
+<style lang="scss">
+  .current-weather-container {
+  }
+</style>

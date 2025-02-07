@@ -27,3 +27,5 @@ export const getCardinalDirectionFromDegrees = (
     ([_, range]) => range[0] <= degrees && degrees < range[1]
   )?.[0];
 };
+
+export const mmToIn = (mm: number) => (mm * 0.03937007874).toFixed(2);
