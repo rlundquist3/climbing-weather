@@ -22,6 +22,7 @@ export const getForecast = async ({ lat, lng }: Coordinates) => {
       lat,
       lon: lng,
       units: "imperial",
+      exclude: "minutely",
     })}`
   );
   return response.json();

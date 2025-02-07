@@ -1,7 +1,11 @@
 ---
 import PastWeatherDay from "../../components/PastWeatherDay.astro";
-import { PastWeatherDayData } from "../../util/weather-data-types";
+import {
+  PastWeatherDayData,
+  ForecastData,
+} from "../../util/weather-data-types";
 import Layout from "../../layouts/Layout.astro";
+import CurrentWeather from "../../components/CurrentWeather.astro";
 
 export const prerender = false;
 
@@ -12,7 +16,7 @@ const {
   area,
   pastWeather,
   forecast,
-}: { area: any; pastWeather: PastWeatherDayData[]; forecast: any } =
+}: { area: any; pastWeather: PastWeatherDayData[]; forecast: ForecastData } =
   await response.json(); // TODO: fix types
 
 // TODO: error handling here
@@ -32,7 +36,8 @@ const totalPrecip = pastWeather.reduce(
     {pastWeather.map((day) => <PastWeatherDay data={day} />)}
   </div>
   <hr />
-  <h3>Forecast</h3>
+  <CurrentWeather data={forecast.current} />
+  <hr />
   <div>{JSON.stringify(forecast)}</div>
 </Layout>
 
