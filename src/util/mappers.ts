@@ -29,3 +29,16 @@ export const getCardinalDirectionFromDegrees = (
 };
 
 export const mmToIn = (mm: number) => (mm * 0.03937007874).toFixed(2);
+
+export const getAreaSlug = (name: string): string =>
+  name.toLowerCase().split(" ").join("-");
+export const parseAreaSlug = (slug: string): string =>
+  slug
+    .split("-")
+    .map((word) => `${word[0].toUpperCase()}${word.slice(1)}}`)
+    .join(" ");
+
+export const parseQueryParams = (
+  queryString: string
+): { [key: string]: string } =>
+  Object.fromEntries(queryString.split("&").map((param) => param.split("=")));

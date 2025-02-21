@@ -6,6 +6,7 @@ export type Coordinates = {
 };
 
 const WEATHER_API_URL = "https://api.openweathermap.org/data/3.0/onecall";
+// @ts-ignore
 const appid = import.meta.env.WEATHER_API_KEY;
 
 const transformQueryParams = (params: {
