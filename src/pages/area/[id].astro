@@ -13,7 +13,9 @@ export const prerender = false;
 const { id } = Astro.params;
 
 // @ts-ignore
-const response = await fetch(`${import.meta.env.API_URL}/api/${id}.json`);
+const response = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/api/${id}.json`
+);
 const {
   area,
   pastWeather,

@@ -41,4 +41,8 @@ export const parseAreaSlug = (slug: string): string =>
 export const parseQueryParams = (
   queryString: string
 ): { [key: string]: string } =>
-  Object.fromEntries(queryString.split("&").map((param) => param.split("=")));
+  Object.fromEntries(
+    decodeURI(queryString)
+      .split("&")
+      .map((param) => param.split("="))
+  );
