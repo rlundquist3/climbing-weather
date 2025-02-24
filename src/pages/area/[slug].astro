@@ -8,7 +8,7 @@ import Layout from "../../layouts/Layout.astro";
 import CurrentWeather from "../../components/CurrentWeather.astro";
 import Forecast from "../../components/Forecast.astro";
 import { mmToIn } from "../../util/mappers";
-import Data from "../../components/Data.astro";
+import { TextData } from "../../components/data";
 import { Area } from "../../util/areas";
 
 export const prerender = false;
@@ -35,10 +35,10 @@ const totalPrecip = mmToIn(
 ---
 
 <Layout>
-  <h1>Weather for: <Data>{area.name}</Data></h1>
+  <h1>Weather for: <TextData>{area.name}</TextData></h1>
   <h3>Past 3 Days</h3>
   <strong>total precipitation:</strong>
-  <Data>{totalPrecip}"</Data>
+  <TextData>{totalPrecip}"</TextData>
   <div class="past-weather-container">
     {pastWeather.map((day) => <PastWeatherDay data={day} />)}
   </div>

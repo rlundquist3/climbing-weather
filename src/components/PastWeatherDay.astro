@@ -2,6 +2,7 @@
 import type { PastWeatherDayData } from "../util/weather-data-types";
 import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
 import { DateTime } from "luxon";
+import Thermometer from "./data/Thermometer.astro";
 
 type Props = { data: PastWeatherDayData };
 
@@ -9,13 +10,15 @@ const { data } = Astro.props;
 ---
 
 <div class="past-weather-day">
-  <h3>{DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_FULL)}</h3>
+  <h3>
+    <time datetime={data.date}
+      >{DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_FULL)}</time>
+  </h3>
+  <div class="temp-range">
+    <Thermometer value={data.temperature.min} type="low" />
+    <Thermometer value={data.temperature.max} type="high" />
+  </div>
   <ul>
-    <li>
-      <strong>temprature:</strong> low: {data.temperature.min}°F, high: {
-        data.temperature.max
-      }°F
-    </li>
     <li><strong>precipitation:</strong> {mmToIn(data.precipitation.total)}"</li>
     <li>
       <strong>wind:</strong>
@@ -35,6 +38,16 @@ const { data } = Astro.props;
 
 <style lang="scss">
   .past-weather-day {
+    border-radius: 8px;
+    box-shadow: 4px 4px 12px #000000;
     margin-right: 1rem;
+    padding: 0 0.5rem;
+  }
+  h3 {
+    text-align: center;
+  }
+  .temp-range {
+    display: flex;
+    flex-direction: row;
   }
 </style>

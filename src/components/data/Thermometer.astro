@@ -1,0 +1,43 @@
+---
+import TextData from "./TextData.astro";
+
+type Props = { value: number; type: "low" | "high" };
+const { value, type } = Astro.props;
+---
+
+<div class="container">
+  <meter
+    class={type}
+    min="0"
+    max="120"
+    low="30"
+    high="80"
+    optimum="55"
+    value={value}
+    title="degrees Farenheit"></meter>
+  <div>
+    <label>{type}:</label><br />
+    <TextData>{value.toFixed(0)}°F</TextData>
+  </div>
+</div>
+
+<style>
+  div.container {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+  }
+  label {
+    font-size: 0.75rem;
+  }
+  meter {
+    transform: rotate(-90deg) translate(20px, 14px);
+    width: 50px;
+  }
+  meter.low::-webkit-meter-optimum-value {
+    background: #08bdff;
+  }
+  meter.high::-webkit-meter-optimum-value {
+    background: #fc6a0f;
+  }
+</style>
