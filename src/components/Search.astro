@@ -28,11 +28,13 @@
     class="area-input"
     name="input"
     type="search"
-    list="available-areas"
-    hx-get="/api/search.json"
+    hx-get="/api/search"
     hx-target="#search-results"
   />
-  <div id="search-results"></div>
+  <ul id="search-results"></ul>
 </div>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .search-results {
+  }
+</style>

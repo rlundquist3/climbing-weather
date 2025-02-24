@@ -7,14 +7,16 @@ import {
 import Layout from "../../layouts/Layout.astro";
 import CurrentWeather from "../../components/CurrentWeather.astro";
 import Forecast from "../../components/Forecast.astro";
+import { mmToIn } from "../../util/mappers";
 
 export const prerender = false;
 
-const { id } = Astro.params;
+const { slug } = Astro.params;
+const queryString = Astro.url.search;
 
 const response = await fetch(
   // @ts-ignore
-  `${import.meta.env.PUBLIC_API_URL}/api/${id}.json`
+  `${import.meta.env.PUBLIC_API_URL}/api/${slug}.json${queryString}`
 );
 const {
   area,
@@ -25,9 +27,8 @@ const {
 
 // TODO: error handling here
 
-const totalPrecip = pastWeather.reduce(
-  (acc, day) => acc + day.precipitation.total ?? 0,
-  0
+const totalPrecip = mmToIn(
+  pastWeather.reduce((acc, day) => acc + day.precipitation.total ?? 0, 0)
 );
 ---
 

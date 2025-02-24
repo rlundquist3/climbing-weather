@@ -35,7 +35,7 @@ export const getAreaSlug = (name: string): string =>
 export const parseAreaSlug = (slug: string): string =>
   slug
     .split("-")
-    .map((word) => `${word[0].toUpperCase()}${word.slice(1)}}`)
+    .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
     .join(" ");
 
 export const parseQueryParams = (

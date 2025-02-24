@@ -1,6 +1,6 @@
 ---
 import type { PastWeatherDayData } from "../util/weather-data-types";
-import { getCardinalDirectionFromDegrees } from "../util/mappers";
+import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
 import { DateTime } from "luxon";
 
 type Props = { data: PastWeatherDayData };
@@ -16,7 +16,7 @@ const { data } = Astro.props;
         data.temperature.max
       }°F
     </li>
-    <li><strong>precipitation:</strong> {data.precipitation.total}"</li>
+    <li><strong>precipitation:</strong> {mmToIn(data.precipitation.total)}"</li>
     <li>
       <strong>wind:</strong>
       {getCardinalDirectionFromDegrees(data.wind.max.direction)}, {

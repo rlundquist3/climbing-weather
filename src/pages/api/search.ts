@@ -63,23 +63,32 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   if (input) {
     const { data } = await client.query(query, { input });
-    const areas = (data?.areas ?? []).filter(hasCoordinatesInTree);
-    const areaSuggestions: Area[] = areas
+    const areas: Area[] = (data?.areas ?? [])
+      .filter(hasCoordinatesInTree)
       .map(formatAreaSuggestion)
       .filter((a): a is Area => !!a);
 
-    return new Response(JSON.stringify(areaSuggestions));
+    const responseHtml = `
+        ${areas
+          .map(
+            ({ name, slug, lat, lng }) =>
+              `<li><a href="/area/${slug}?lat=${lat}&lng=${lng}">${name}</a></li>`
+          )
+          .join("\n")}
+    `;
+
+    return new Response(responseHtml, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
   }
 
-  return new Response(
-    JSON.stringify({
-      error: `Input not valid`,
-    }),
-    {
-      status: 400,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  return new Response("Input not valid", {
+    status: 400,
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
 };
