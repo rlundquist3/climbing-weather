@@ -12,8 +12,8 @@ export const prerender = false;
 
 const { id } = Astro.params;
 
-// @ts-ignore
 const response = await fetch(
+  // @ts-ignore
   `${import.meta.env.PUBLIC_API_URL}/api/${id}.json`
 );
 const {

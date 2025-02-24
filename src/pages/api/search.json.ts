@@ -1,7 +1,8 @@
 import { APIRoute } from "astro";
 import { Client, cacheExchange, fetchExchange, gql } from "@urql/core";
 import type { Coordinates } from "../../util/weather-data";
-import { parseQueryParams } from "../../util/mappers";
+import type { Area } from "../../util/areas";
+import { getAreaSlug, parseQueryParams } from "../../util/mappers";
 
 export const prerender = false;
 
@@ -14,6 +15,31 @@ export type GqlArea = {
   area_name: string;
   children?: GqlArea[];
   metadata?: Coordinates;
+};
+
+const hasCoordinatesInTree = ({ children, metadata }: GqlArea): boolean =>
+  !!(metadata?.lat && metadata?.lng) ||
+  !!(children && children?.some(hasCoordinatesInTree));
+
+// his assumption of the first coordinates should be fine for now; maybe improve later
+const formatAreaSuggestion = ({
+  area_name,
+  children,
+  metadata,
+}: GqlArea): Area | undefined => {
+  const coordinates = !!(metadata?.lat && metadata?.lng)
+    ? metadata
+    : children?.find(({ metadata }) => !!(metadata?.lat && metadata?.lng))
+        ?.metadata;
+
+  if (coordinates) {
+    return {
+      name: area_name,
+      slug: getAreaSlug(area_name),
+      ...coordinates,
+    };
+  }
+  return undefined;
 };
 
 const query = gql<{ areas: GqlArea[] }, { input: string }>`
@@ -33,17 +59,16 @@ const query = gql<{ areas: GqlArea[] }, { input: string }>`
 
 export const GET: APIRoute = async ({ params, request }) => {
   const { input } = parseQueryParams(request.url.split("?")[1]);
-
   console.log("INPUT:", input);
 
   if (input) {
-    const q = client.query(query, { input });
-    console.log(q);
-    const { data } = await q;
-    const areas = data?.areas ?? [];
-    console.log(areas);
+    const { data } = await client.query(query, { input });
+    const areas = (data?.areas ?? []).filter(hasCoordinatesInTree);
+    const areaSuggestions: Area[] = areas
+      .map(formatAreaSuggestion)
+      .filter((a): a is Area => !!a);
 
-    return new Response(JSON.stringify(areas));
+    return new Response(JSON.stringify(areaSuggestions));
   }
 
   return new Response(
