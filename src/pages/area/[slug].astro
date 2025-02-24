@@ -8,6 +8,8 @@ import Layout from "../../layouts/Layout.astro";
 import CurrentWeather from "../../components/CurrentWeather.astro";
 import Forecast from "../../components/Forecast.astro";
 import { mmToIn } from "../../util/mappers";
+import Data from "../../components/Data.astro";
+import { Area } from "../../util/areas";
 
 export const prerender = false;
 
@@ -22,8 +24,8 @@ const {
   area,
   pastWeather,
   forecast,
-}: { area: any; pastWeather: PastWeatherDayData[]; forecast: ForecastData } =
-  await response.json(); // TODO: fix types
+}: { area: Area; pastWeather: PastWeatherDayData[]; forecast: ForecastData } =
+  await response.json();
 
 // TODO: error handling here
 
@@ -33,10 +35,10 @@ const totalPrecip = mmToIn(
 ---
 
 <Layout>
-  <h1>Weather for {area.name}</h1>
+  <h1>Weather for: <Data>{area.name}</Data></h1>
   <h3>Past 3 Days</h3>
   <strong>total precipitation:</strong>
-  {totalPrecip}"
+  <Data>{totalPrecip}"</Data>
   <div class="past-weather-container">
     {pastWeather.map((day) => <PastWeatherDay data={day} />)}
   </div>

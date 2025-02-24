@@ -57,9 +57,8 @@ const query = gql<{ areas: GqlArea[] }, { input: string }>`
   }
 `;
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ request }) => {
   const { input } = parseQueryParams(request.url.split("?")[1]);
-  console.log("INPUT:", input);
 
   if (input) {
     const { data } = await client.query(query, { input });
