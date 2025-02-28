@@ -28,7 +28,8 @@ export const getCardinalDirectionFromDegrees = (
   )?.[0];
 };
 
-export const mmToIn = (mm: number) => (mm * 0.03937007874).toFixed(2);
+export const mmToIn = (mm: number): number =>
+  Number((mm * 0.03937007874).toFixed(2));
 
 export const getAreaSlug = (name: string): string =>
   name.toLowerCase().split(" ").join("-");

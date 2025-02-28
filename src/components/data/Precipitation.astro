@@ -1,0 +1,33 @@
+---
+import TextData from "./TextData.astro";
+
+type Props = { value: number };
+const { value } = Astro.props;
+---
+
+<div class="container">
+  <meter min="0" max="5" value={value} title="inches precip"></meter>
+  <div>
+    <label>Precip:</label><br />
+    <TextData>{value.toFixed(2)}"</TextData>
+  </div>
+</div>
+
+<style>
+  div.container {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+  }
+  label {
+    font-size: 0.75rem;
+  }
+  meter {
+    transform: rotate(-90deg) translate(20px, 14px);
+    width: 50px;
+  }
+  meter::-webkit-meter-optimum-value {
+    background: #0863ff;
+  }
+</style>
