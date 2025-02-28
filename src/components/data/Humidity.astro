@@ -6,10 +6,10 @@ const { value } = Astro.props;
 ---
 
 <div class="container">
-  <meter min="0" max="5" value={value} title="inches precip"></meter>
+  <meter min="0" max="100" value={value} title="relative humidity %"></meter>
   <div>
-    <label>precip:</label><br />
-    <TextData>{value.toFixed(2)}"</TextData>
+    <label>humidity:</label><br />
+    <TextData>{value}%</TextData>
   </div>
 </div>
 
@@ -28,6 +28,6 @@ const { value } = Astro.props;
     width: 50px;
   }
   meter::-webkit-meter-optimum-value {
-    background: #0863ff;
+    background: #0ac2ff;
   }
 </style>
