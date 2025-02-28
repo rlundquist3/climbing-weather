@@ -4,6 +4,7 @@ import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
 import { DateTime } from "luxon";
 import Thermometer from "./data/Thermometer.astro";
 import Precipitation from "./data/Precipitation.astro";
+import Wind from "./data/Wind.astro";
 
 type Props = { data: PastWeatherDayData };
 
@@ -21,13 +22,8 @@ const { data } = Astro.props;
     <Thermometer value={data.temperature.max} type="high" />
   </div>
   <Precipitation value={mmToIn(data.precipitation.total)} />
+  <Wind direction={data.wind.max.direction} speed={data.wind.max.speed} />
   <ul>
-    <li>
-      <strong>wind:</strong>
-      {getCardinalDirectionFromDegrees(data.wind.max.direction)}, {
-        data.wind.max.speed
-      }mph
-    </li>
     {
       data.humidity.afternoon && (
         <li>
