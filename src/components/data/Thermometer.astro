@@ -10,7 +10,6 @@ const { value, type } = Astro.props;
     class={type}
     min="0"
     max="120"
-    low="30"
     high="80"
     optimum="55"
     value={value}
@@ -26,6 +25,7 @@ const { value, type } = Astro.props;
     align-items: flex-end;
     display: flex;
     flex-direction: row;
+    width: 100px;
   }
   label {
     font-size: 0.75rem;

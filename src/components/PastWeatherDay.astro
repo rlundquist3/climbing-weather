@@ -15,16 +15,16 @@ const { data } = Astro.props;
 <div class="past-weather-day">
   <h3>
     <time datetime={data.date}
-      >{DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_FULL)}</time
+      >{DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}</time
     >
   </h3>
-  <div class="temp-range">
+  <div class="data-container">
     <Thermometer value={data.temperature.min} type="low" />
     <Thermometer value={data.temperature.max} type="high" />
+    <Precipitation value={mmToIn(data.precipitation.total)} />
+    {data.humidity.afternoon && <Humidity value={data.humidity.afternoon}} />}
+    <Wind direction={data.wind.max.direction} speed={data.wind.max.speed} />
   </div>
-  <Precipitation value={mmToIn(data.precipitation.total)} />
-  <Wind direction={data.wind.max.direction} speed={data.wind.max.speed} />
-  {data.humidity.afternoon && <Humidity value={data.humidity.afternoon}} />}
 </div>
 
 <style lang="scss">
@@ -32,13 +32,17 @@ const { data } = Astro.props;
     border-radius: 8px;
     box-shadow: 4px 4px 12px #000000;
     margin-right: 1rem;
-    padding: 0 0.5rem;
+    max-height: calc(100% - 2rem);
+    padding: 0 1rem 1rem;
   }
   h3 {
     text-align: center;
   }
-  .temp-range {
+  .data-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    grid-gap: 1rem;
+    width: 220px;
   }
 </style>

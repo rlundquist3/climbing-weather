@@ -8,7 +8,7 @@ const { direction, speed } = Astro.props;
 const cardinalDirection = getCardinalDirectionFromDegrees(direction);
 ---
 
-<div class="container">
+<div class="container" title="wind speed and direction">
   <svg viewBox="0 0 80 80" height="80">
     <g
       style={{
@@ -16,7 +16,7 @@ const cardinalDirection = getCardinalDirectionFromDegrees(direction);
         "transform-origin": "40px 40px",
       }}
     >
-      <circle cx="40" cy="40" r="40"></circle>
+      <circle cx="40" cy="40" r="40" stroke="white" stroke-width="0.5"></circle>
       <polygon
         points="40,2,44,10,40,8,36,10"
         stroke="white"
@@ -44,7 +44,7 @@ const cardinalDirection = getCardinalDirectionFromDegrees(direction);
     align-items: flex-end;
     display: flex;
     flex-direction: row;
-    margin-top: 1rem;
+    width: 100px;
   }
   text {
     fill: #6be89f;
