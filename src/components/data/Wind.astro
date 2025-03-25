@@ -12,16 +12,12 @@ const cardinalDirection = getCardinalDirectionFromDegrees(direction);
   <svg viewBox="0 0 80 80" height="80">
     <g
       style={{
-        transform: `rotate(${direction}deg)`,
+        transform: `rotate(${direction - 180}deg)`,
         "transform-origin": "40px 40px",
       }}
     >
       <circle cx="40" cy="40" r="40" stroke="white" stroke-width="0.5"></circle>
-      <polygon
-        points="40,2,44,10,40,8,36,10"
-        stroke="white"
-        stroke-width="0.5"
-        fill="red"></polygon></g
+      <polygon points="40,4,48,70,40,60,32,70" fill="#ff1a1a50"></polygon></g
     >
     <g>
       <path d="M 40,2 v 12" stroke="red" stroke-width="2" stroke-linecap="round"

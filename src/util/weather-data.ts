@@ -31,14 +31,10 @@ export const getForecast = async ({ lat, lng }: Coordinates) => {
 
 export const getPastWeather = async (
   { lat, lng }: Coordinates,
-  days: number = 3
+  days: number = 4
 ) => {
-  const pastNDays = [...Array(3)]
-    .map((_, i) =>
-      DateTime.now()
-        .minus({ days: i + 1 })
-        .toISODate()
-    )
+  const pastNDays = [...Array(days)]
+    .map((_, i) => DateTime.now().minus({ days: i }).toISODate())
     .reverse();
 
   const responses = await Promise.all(
