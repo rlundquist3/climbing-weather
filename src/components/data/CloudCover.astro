@@ -1,0 +1,34 @@
+---
+import TextData from "./TextData.astro";
+
+type Props = { value: number };
+const { value } = Astro.props;
+---
+
+<div class="container">
+  <meter min="0" max="100" value={value} title="uv index"></meter>
+  <div>
+    <label>cloud cover:</label><br />
+    <TextData>{value}%</TextData>
+  </div>
+</div>
+
+<style>
+  div.container {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    width: 134px;
+  }
+  label {
+    font-size: 0.75rem;
+  }
+  meter {
+    height: 100px;
+    width: 50px;
+    margin: -24px 8px;
+  }
+  meter::-webkit-meter-optimum-value {
+    background: #3d74b1;
+  }
+</style>
