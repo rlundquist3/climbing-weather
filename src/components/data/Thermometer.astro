@@ -1,11 +1,16 @@
 ---
+import isFinite from "lodash/isFinite";
 import TextData from "./TextData.astro";
 
-type Props = { value: number; type: "low" | "high" };
-const { value, type } = Astro.props;
+type Props = {
+  value: number;
+  type: "low" | "high" | "current" | "dew point";
+  feelsLike?: number;
+};
+const { value, type, feelsLike } = Astro.props;
 ---
 
-<div class="container">
+<div class="container" style={isFinite(feelsLike) ? { width: "unset" } : {}}>
   <meter
     class={type}
     min="0"
@@ -15,8 +20,22 @@ const { value, type } = Astro.props;
     value={value}
     title="degrees Farenheit"></meter>
   <div>
-    <label>{type}:</label><br />
+    {type !== "current" && <label>{type}:</label>}<br />
     <TextData>{value.toFixed(0)}°F</TextData>
+    {
+      isFinite(feelsLike) && (
+        <>
+          <br />
+          <span style={{ fontSize: "0.75rem" }}>
+            (feels like:
+            <TextData style={{ fontSize: "0.75rem" }}>
+              {feelsLike?.toFixed(0)}°F
+            </TextData>
+            )
+          </span>
+        </>
+      )
+    }
   </div>
 </div>
 

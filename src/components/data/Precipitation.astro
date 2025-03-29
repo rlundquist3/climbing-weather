@@ -1,14 +1,14 @@
 ---
 import TextData from "./TextData.astro";
 
-type Props = { value: number };
-const { value } = Astro.props;
+type Props = { value: number; label?: string };
+const { value, label = "precip" } = Astro.props;
 ---
 
 <div class="container">
   <meter min="0" max="5" value={value} title="inches precip"></meter>
   <div>
-    <label>precip:</label><br />
+    <label>{label}:</label><br />
     <TextData>{value.toFixed(2)}"</TextData>
   </div>
 </div>

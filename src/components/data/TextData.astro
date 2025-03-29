@@ -1,4 +1,11 @@
-<span><slot /></span>
+---
+type Props = {
+  style?: { [key: string]: any };
+};
+const { style } = Astro.props;
+---
+
+<span style={style}><slot /></span>
 
 <style>
   span {

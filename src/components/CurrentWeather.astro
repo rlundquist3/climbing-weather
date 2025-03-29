@@ -1,6 +1,14 @@
 ---
 import type { CurrentWeatherData } from "../util/weather-data-types";
-import { getCardinalDirectionFromDegrees } from "../util/mappers";
+import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
+import Thermometer from "./data/Thermometer.astro";
+import DataContainer from "./data/DataContainer.astro";
+import Precipitation from "./data/Precipitation.astro";
+import Wind from "./data/Wind.astro";
+import Humidity from "./data/Humidity.astro";
+import UVIndex from "./data/UVIndex.astro";
+import CloudCover from "./data/CloudCover.astro";
+import TextData from "./data/TextData.astro";
 
 type Props = { data: CurrentWeatherData };
 
@@ -10,56 +18,41 @@ const { data } = Astro.props;
 <div class="current-weather-container">
   <h3>Current</h3>
   <p>{data.weather[0].description}</p>
-  <ul>
-    <li>
-      <strong>temprature:</strong>
-      {data.temp}°F (feels like {data.feels_like}°F)
-    </li>
+  <div class="inner-container">
+    <Thermometer value={data.temp} feelsLike={data.feels_like} type="current" />
     {
       isFinite(data.rain?.["1h"]) && (
-        <li>
-          <strong>rain last hour:</strong> {data.rain["1h"]}"
-        </li>
+        <Precipitation label="rain last hr" value={mmToIn(data.rain["1h"])} />
       )
     }
     {
       isFinite(data.snow?.["1h"]) && (
-        <li>
-          <strong>snow last hour:</strong> {data.snow["1h"]}"
-        </li>
+        <Precipitation label="snow last hr" value={mmToIn(data.snow["1h"])} />
       )
     }
     {
       isFinite(data.pop) && (
-        <li>
-          <strong>probability of precipitation:</strong> {data.pop}"
-        </li>
+        <div>
+          <>
+            <label style={{ fontSize: "0.75rem" }}>chance precip:</label>
+            <br />
+          </>
+          <TextData>{data.pop}%</TextData>
+        </div>
       )
     }
-    <li>
-      <strong>wind:</strong>
-      {getCardinalDirectionFromDegrees(data.wind_deg)}, {data.wind_speed}mph
-    </li>
-    <li>
-      <strong>humidity:</strong>
-      {data.humidity}%
-    </li>
-    <li>
-      <strong>clouds:</strong>
-      {data.clouds}%
-    </li>
-    <li>
-      <strong>uv index:</strong>
-      {data.uvi}
-    </li>
-    <li>
-      <strong>dew point:</strong>
-      {data.dew_point}°F
-    </li>
-  </ul>
+    <Humidity value={data.humidity} } />
+    <Thermometer value={data.dew_point} type="dew point" />
+    <CloudCover value={data.clouds} />
+    <UVIndex value={data.uvi} />
+    <Wind direction={data.wind_deg} speed={data.wind_speed} />
+  </div>
 </div>
 
 <style lang="scss">
   .current-weather-container {
+  }
+  .inner-container {
+    display: flex;
   }
 </style>

@@ -6,6 +6,7 @@ import Thermometer from "./data/Thermometer.astro";
 import Precipitation from "./data/Precipitation.astro";
 import Wind from "./data/Wind.astro";
 import Humidity from "./data/Humidity.astro";
+import DataContainer from "./data/DataContainer.astro";
 
 type Props = { data: PastWeatherDayData };
 
@@ -18,13 +19,13 @@ const { data } = Astro.props;
       >{DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}</time
     >
   </h3>
-  <div class="data-container">
+  <DataContainer>
     <Thermometer value={data.temperature.min} type="low" />
     <Thermometer value={data.temperature.max} type="high" />
     <Precipitation value={mmToIn(data.precipitation.total)} />
     {data.humidity.afternoon && <Humidity value={data.humidity.afternoon}} />}
     <Wind direction={data.wind.max.direction} speed={data.wind.max.speed} />
-  </div>
+  </DataContainer>
 </div>
 
 <style lang="scss">
@@ -37,12 +38,5 @@ const { data } = Astro.props;
   }
   h3 {
     text-align: center;
-  }
-  .data-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    grid-gap: 1rem;
-    width: 220px;
   }
 </style>
