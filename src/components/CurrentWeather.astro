@@ -37,7 +37,7 @@ const { data } = Astro.props;
             <label style={{ fontSize: "0.75rem" }}>chance precip:</label>
             <br />
           </>
-          <TextData>{data.pop}%</TextData>
+          <TextData>{data.pop * 100}%</TextData>
         </div>
       )
     }
