@@ -5,9 +5,10 @@ import TextData from "./TextData.astro";
 type Props = {
   value: number;
   type: "low" | "high" | "current" | "dew point";
+  label?: string;
   feelsLike?: number;
 };
-const { value, type, feelsLike } = Astro.props;
+const { value, type, feelsLike, label } = Astro.props;
 ---
 
 <div class="container" style={isFinite(feelsLike) ? { width: "unset" } : {}}>
@@ -20,7 +21,13 @@ const { value, type, feelsLike } = Astro.props;
     value={value}
     title="degrees Farenheit"></meter>
   <div>
-    {type !== "current" && <label>{type}:</label>}<br />
+    {
+      type !== "current" ? (
+        <label>{label ?? type}:</label>
+      ) : type === "current" && !!label ? (
+        <label>{label}:</label>
+      ) : null
+    }<br />
     <TextData>{value.toFixed(0)}°F</TextData>
     {
       isFinite(feelsLike) && (

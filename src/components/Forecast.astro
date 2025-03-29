@@ -12,10 +12,11 @@ const { hourly, daily } = Astro.props;
 ---
 
 <div class="forecast-container">
-  <h3>Forecast</h3>
+  <h3>Next 12 Hours</h3>
   <div class="hourly-forecast-container">
     {hourly.slice(0, 13).map((data) => <HourlyForecast data={data} />)}
   </div>
+  <h3>Next 7 Days</h3>
   <div class="daily-forecast-container">
     {daily.map(data => <DailyForecast data={data}) />)}
   </div>

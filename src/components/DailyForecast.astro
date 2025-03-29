@@ -2,6 +2,14 @@
 import type { DailyForecastItem } from "../util/weather-data-types";
 import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
 import { DateTime } from "luxon";
+import DataContainer from "./data/DataContainer.astro";
+import Thermometer from "./data/Thermometer.astro";
+import TextData from "./data/TextData.astro";
+import Precipitation from "./data/Precipitation.astro";
+import CloudCover from "./data/CloudCover.astro";
+import Humidity from "./data/Humidity.astro";
+import UVIndex from "./data/UVIndex.astro";
+import Wind from "./data/Wind.astro";
 
 type Props = { data: DailyForecastItem };
 
@@ -14,70 +22,94 @@ const orderedTemperatureKeys: (keyof DailyForecastItem["temp"])[] = [
   "eve",
   "night",
 ];
+
+const tempKeyMap: {
+  [Property in keyof DailyForecastItem["temp"]]: {
+    type: "low" | "high" | "current" | "dew point";
+    label: string;
+  };
+} = {
+  min: { type: "low", label: "low" },
+  max: { type: "high", label: "high" },
+  morn: { type: "current", label: "morning" },
+  day: { type: "current", label: "afternoon" },
+  eve: { type: "current", label: "evening" },
+  night: { type: "current", label: "night" },
+};
 ---
 
 <div class="daily-forecast-item">
-  <h3>{DateTime.fromSeconds(data.dt).toLocaleString(DateTime.DATE_FULL)}</h3>
-  <p>{data.weather[0].description}</p>
-  <ul>
-    <li>
-      <strong>temprature:</strong>
-      <ul>
-        {
-          orderedTemperatureKeys.map((key) => (
-            <li>
-              {key}: {data.temp[key]}°F (feels like {data.feels_like[key]}°F)
-            </li>
-          ))
-        }
-      </ul>
-    </li>
+  <h3>
+    <time
+      datetime={DateTime.fromSeconds(data.dt).toLocaleString(
+        DateTime.DATE_FULL
+      )}
+      >{
+        DateTime.fromSeconds(data.dt)
+          .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+          .split(",")
+          .slice(0, -1)
+          .join(",")
+      }:</time
+    >
+  </h3>
+  <h4>{data.weather[0].description}</h4>
+  <DataContainer>
+    {
+      orderedTemperatureKeys.map((key) => (
+        <Thermometer
+          value={data.temp[key]}
+          feelsLike={data.feels_like[key]}
+          type={tempKeyMap[key].type}
+          label={tempKeyMap[key].label}
+        />
+      ))
+    }
+    {
+      isFinite(data.pop) && (
+        <div>
+          <>
+            <label style={{ fontSize: "0.75rem" }}>chance precip:</label>
+            <br />
+          </>
+          <TextData>{data.pop * 100}%</TextData>
+        </div>
+      )
+    }
     {
       isFinite(data.rain) && (
-        <li>
-          <strong>rain est:</strong> {mmToIn(data.rain)}"
-        </li>
+        <Precipitation label="rain" value={mmToIn(data.rain)} />
       )
     }
     {
       isFinite(data.snow) && (
-        <li>
-          <strong>snow est:</strong> {mmToIn(data.snow)}"
-        </li>
+        <Precipitation label="snow" value={mmToIn(data.snow)} />
       )
     }
-    {
-      isFinite(data.pop) && (
-        <li>
-          <strong>probability of precipitation:</strong> {data.pop * 100}%
-        </li>
-      )
-    }
-    <li>
-      <strong>wind:</strong>
-      {getCardinalDirectionFromDegrees(data.wind_deg)}, {data.wind_speed}mph
-    </li>
-    <li>
-      <strong>humidity:</strong>
-      {data.humidity}%
-    </li>
-    <li>
-      <strong>clouds:</strong>
-      {data.clouds}%
-    </li>
-    <li>
-      <strong>uv index:</strong>
-      {data.uvi}
-    </li>
-    <li>
-      <strong>dew point:</strong>
-      {data.dew_point}°F
-    </li>
-  </ul>
+    <Humidity value={data.humidity} } />
+    <Thermometer value={data.dew_point} type="dew point" />
+    <UVIndex value={data.uvi} />
+    <Wind direction={data.wind_deg} speed={data.wind_speed} />
+    <CloudCover value={data.clouds} />
+  </DataContainer>
 </div>
 
 <style lang="scss">
   .daily-forecast-item {
-    margin-right: 1rem;
+    border-radius: 8px;
+    box-shadow: 4px 4px 12px #000000;
+    margin: 0.5rem;
+    max-height: calc(100% - 2rem);
+    padding: 0 1rem 1rem;
+  }
+  h3,
+  h4 {
+    text-align: center;
+  }
+  h3 {
+    margin-bottom: 0;
+  }
+  h4 {
+    margin-top: 0;
   }
 </style>
