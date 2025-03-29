@@ -18,7 +18,7 @@ const { hourly, daily } = Astro.props;
   </div>
   <h3>Next 7 Days</h3>
   <div class="daily-forecast-container">
-    {daily.map(data => <DailyForecast data={data}) />)}
+    {daily.map((data, index) => <DailyForecast data={data}) label={index === 0 ? 'Tomorrow' : undefined} />)}
   </div>
 </div>
 

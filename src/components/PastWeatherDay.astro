@@ -8,16 +8,19 @@ import Wind from "./data/Wind.astro";
 import Humidity from "./data/Humidity.astro";
 import DataContainer from "./data/DataContainer.astro";
 
-type Props = { data: PastWeatherDayData };
+type Props = { data: PastWeatherDayData; label?: string };
 
-const { data } = Astro.props;
+const { data, label } = Astro.props;
 ---
 
 <div class="past-weather-day">
   <h3>
     <time datetime={data.date}
-      >{DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}</time
-    >
+      >{label ?? DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+        .split(",")
+        .slice(0, -1)
+        .join(",")
+      }</time>
   </h3>
   <DataContainer>
     <Thermometer value={data.temperature.min} type="low" />

@@ -58,7 +58,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     try {
       const [forecast, pastWeather] = await Promise.all([
         getForecast(area),
-        getPastWeather(area),
+        getPastWeather(area, 4),
       ]);
 
       return new Response(

@@ -29,21 +29,34 @@ const {
 
 // TODO: error handling here
 
-const totalPrecip = mmToIn(
-  pastWeather.reduce((acc, day) => acc + day.precipitation.total ?? 0, 0)
+const precipLast3Days = mmToIn(
+  pastWeather
+    .slice(0, -1)
+    .reduce((acc, day) => acc + day.precipitation.total ?? 0, 0)
 );
+const precipToday =
+  pastWeather[pastWeather.length - 1].precipitation.total ?? 0;
 ---
 
 <Layout>
   <h1>Weather for: <TextData>{area.name}</TextData></h1>
+  <CurrentWeather data={{ ...forecast.current, precip: precipToday }} />
+  <hr />
   <h3>Past 3 Days</h3>
   <strong>total precipitation:</strong>
-  <TextData>{totalPrecip}"</TextData>
+  <TextData>{precipLast3Days}"</TextData>
   <div class="past-weather-container">
-    {pastWeather.map((day) => <PastWeatherDay data={day} />)}
+    {
+      pastWeather
+        .slice(0, -1)
+        .map((day, index) => (
+          <PastWeatherDay
+            label={index === pastWeather.length - 2 ? "Yesterday" : undefined}
+            data={day}
+          />
+        ))
+    }
   </div>
-  <hr />
-  <CurrentWeather data={forecast.current} />
   <hr />
   <Forecast hourly={forecast.hourly} daily={forecast.daily} />
 </Layout>

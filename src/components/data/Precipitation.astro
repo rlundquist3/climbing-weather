@@ -6,7 +6,7 @@ const { value, label = "precip" } = Astro.props;
 ---
 
 <div class="container">
-  <meter min="0" max="5" value={value} title="inches precip"></meter>
+  <meter min="0" max="1" value={value} title="inches precip"></meter>
   <div>
     <label>{label}:</label><br />
     <TextData>{value.toFixed(2)}"</TextData>
@@ -18,7 +18,7 @@ const { value, label = "precip" } = Astro.props;
     align-items: flex-end;
     display: flex;
     flex-direction: row;
-    width: 100px;
+    width: 120px;
   }
   label {
     font-size: 0.75rem;

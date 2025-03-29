@@ -11,9 +11,9 @@ import Humidity from "./data/Humidity.astro";
 import UVIndex from "./data/UVIndex.astro";
 import Wind from "./data/Wind.astro";
 
-type Props = { data: DailyForecastItem };
+type Props = { data: DailyForecastItem; label?: string };
 
-const { data } = Astro.props;
+const { data, label } = Astro.props;
 const orderedTemperatureKeys: (keyof DailyForecastItem["temp"])[] = [
   "min",
   "max",
@@ -45,11 +45,12 @@ const tempKeyMap: {
         DateTime.DATE_FULL
       )}
       >{
-        DateTime.fromSeconds(data.dt)
-          .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-          .split(",")
-          .slice(0, -1)
-          .join(",")
+        label ??
+          DateTime.fromSeconds(data.dt)
+            .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+            .split(",")
+            .slice(0, -1)
+            .join(",")
       }:</time
     >
   </h3>

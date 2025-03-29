@@ -31,7 +31,7 @@ export const getForecast = async ({ lat, lng }: Coordinates) => {
 
 export const getPastWeather = async (
   { lat, lng }: Coordinates,
-  days: number = 4
+  days: number
 ) => {
   const pastNDays = [...Array(days)]
     .map((_, i) => DateTime.now().minus({ days: i }).toISODate())

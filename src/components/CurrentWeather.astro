@@ -1,16 +1,14 @@
 ---
 import type { CurrentWeatherData } from "../util/weather-data-types";
-import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
+import { mmToIn } from "../util/mappers";
 import Thermometer from "./data/Thermometer.astro";
-import DataContainer from "./data/DataContainer.astro";
 import Precipitation from "./data/Precipitation.astro";
 import Wind from "./data/Wind.astro";
 import Humidity from "./data/Humidity.astro";
 import UVIndex from "./data/UVIndex.astro";
 import CloudCover from "./data/CloudCover.astro";
-import TextData from "./data/TextData.astro";
 
-type Props = { data: CurrentWeatherData };
+type Props = { data: CurrentWeatherData & { precip: number } };
 
 const { data } = Astro.props;
 ---
@@ -20,27 +18,7 @@ const { data } = Astro.props;
   <p>{data.weather[0].description}</p>
   <div class="inner-container">
     <Thermometer value={data.temp} feelsLike={data.feels_like} type="current" />
-    {
-      isFinite(data.rain?.["1h"]) && (
-        <Precipitation label="rain last hr" value={mmToIn(data.rain["1h"])} />
-      )
-    }
-    {
-      isFinite(data.snow?.["1h"]) && (
-        <Precipitation label="snow last hr" value={mmToIn(data.snow["1h"])} />
-      )
-    }
-    {
-      isFinite(data.pop) && (
-        <div>
-          <>
-            <label style={{ fontSize: "0.75rem" }}>chance precip:</label>
-            <br />
-          </>
-          <TextData>{data.pop * 100}%</TextData>
-        </div>
-      )
-    }
+    <Precipitation label="precip today" value={mmToIn(data.precip)} />
     <Humidity value={data.humidity} } />
     <Thermometer value={data.dew_point} type="dew point" />
     <CloudCover value={data.clouds} />
