@@ -61,6 +61,18 @@ const precipToday =
   <Forecast hourly={forecast.hourly} daily={forecast.daily} />
 </Layout>
 
+<script>
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  fetch("/api/set-timezone", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ timezone: userTimeZone }),
+  });
+</script>
+
 <style lang="scss">
   .past-weather-container {
     display: flex;
