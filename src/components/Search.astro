@@ -5,6 +5,7 @@
     type="search"
     placeholder="Search for your climbing area..."
     hx-get="/api/search"
+    hx-trigger="input changed delay:250ms, keyup[key=='Enter']"
     hx-target="#search-results"
   />
   <div id="search-results"></div>
