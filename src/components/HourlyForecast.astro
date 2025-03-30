@@ -1,6 +1,6 @@
 ---
 import type { HourlyForecastItem } from "../util/weather-data-types";
-import { mmToIn } from "../util/mappers";
+import { getWeatherImage, mmToIn, weatherImageMap } from "../util/mappers";
 import { DateTime } from "luxon";
 import DataContainer from "./data/DataContainer.astro";
 import Thermometer from "./data/Thermometer.astro";
@@ -14,20 +14,33 @@ import UVIndex from "./data/UVIndex.astro";
 type Props = { data: HourlyForecastItem };
 
 const { data } = Astro.props;
+const weatherImage: string | undefined = getWeatherImage(data);
 ---
 
 <div class="hourly-forecast-item">
-  <h3>
-    <time
-      datetime={DateTime.fromSeconds(data.dt).toLocaleString(
-        DateTime.TIME_24_SIMPLE
-      )}
-      >{
-        DateTime.fromSeconds(data.dt).toLocaleString(DateTime.TIME_24_SIMPLE)
-      }:</time
-    >
-  </h3>
-  <h4>{data.weather[0].description}</h4>
+  <div class="header">
+    <div>
+      <h3>
+        <time
+          datetime={DateTime.fromSeconds(data.dt).toLocaleString(
+            DateTime.TIME_24_SIMPLE
+          )}
+          >{
+            DateTime.fromSeconds(data.dt).toLocaleString(
+              DateTime.TIME_24_SIMPLE
+            )
+          }:</time
+        >
+      </h3>
+      <h4>{data.weather[0].description}</h4>
+    </div>
+    {
+      weatherImage && (
+        <img src={weatherImage} alt={data.weather[0].description} />
+      )
+    }
+  </div>
+
   <DataContainer>
     <Thermometer value={data.temp} feelsLike={data.feels_like} type="current" />
     {
@@ -67,9 +80,9 @@ const { data } = Astro.props;
     max-height: calc(100% - 2rem);
     padding: 0 1rem 1rem;
   }
-  h3,
-  h4 {
-    text-align: center;
+  .header {
+    display: flex;
+    justify-content: space-between;
   }
   h3 {
     margin-bottom: 0;

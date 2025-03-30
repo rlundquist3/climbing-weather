@@ -1,6 +1,6 @@
 ---
 import type { DailyForecastItem } from "../util/weather-data-types";
-import { getCardinalDirectionFromDegrees, mmToIn } from "../util/mappers";
+import { getWeatherImage, mmToIn, weatherImageMap } from "../util/mappers";
 import { DateTime } from "luxon";
 import DataContainer from "./data/DataContainer.astro";
 import Thermometer from "./data/Thermometer.astro";
@@ -14,6 +14,8 @@ import Wind from "./data/Wind.astro";
 type Props = { data: DailyForecastItem; label?: string };
 
 const { data, label } = Astro.props;
+const weatherImage: string | undefined = getWeatherImage(data);
+
 const orderedTemperatureKeys: (keyof DailyForecastItem["temp"])[] = [
   "min",
   "max",
@@ -39,22 +41,32 @@ const tempKeyMap: {
 ---
 
 <div class="daily-forecast-item">
-  <h3>
-    <time
-      datetime={DateTime.fromSeconds(data.dt).toLocaleString(
-        DateTime.DATE_FULL
-      )}
-      >{
-        label ??
-          DateTime.fromSeconds(data.dt)
-            .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-            .split(",")
-            .slice(0, -1)
-            .join(",")
-      }:</time
-    >
-  </h3>
-  <h4>{data.weather[0].description}</h4>
+  <div class="header">
+    <div>
+      <h3>
+        <time
+          datetime={DateTime.fromSeconds(data.dt).toLocaleString(
+            DateTime.DATE_FULL
+          )}
+          >{
+            label ??
+              DateTime.fromSeconds(data.dt)
+                .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+                .split(",")
+                .slice(0, -1)
+                .join(",")
+          }:</time
+        >
+      </h3>
+      <h4>{data.weather[0].description}</h4>
+    </div>
+    {
+      weatherImage && (
+        <img src={weatherImage} alt={data.weather[0].description} />
+      )
+    }
+  </div>
+
   <DataContainer>
     {
       orderedTemperatureKeys.map((key) => (
@@ -103,9 +115,9 @@ const tempKeyMap: {
     max-height: calc(100% - 2rem);
     padding: 0 1rem 1rem;
   }
-  h3,
-  h4 {
-    text-align: center;
+  .header {
+    display: flex;
+    justify-content: space-between;
   }
   h3 {
     margin-bottom: 0;

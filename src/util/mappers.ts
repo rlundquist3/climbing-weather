@@ -1,3 +1,9 @@
+import {
+  CurrentWeatherData,
+  DailyForecastItem,
+  HourlyForecastItem,
+} from "./weather-data-types";
+
 const directionRanges = {
   N: [-15, 15],
   NNE: [15, 35],
@@ -47,3 +53,31 @@ export const parseQueryParams = (
       .split("&")
       .map((param) => param.split("="))
   );
+
+export const weatherImageMap = {
+  "10d": "/weather-icons/rainy.svg",
+  "10n": "/weather-icons/rainy.svg",
+  "11d": "/weather-icons/thunderstorm.svg",
+  "11n": "/weather-icons/thunderstorm.svg",
+  "13d": "/weather-icons/snowy.svg",
+  "13n": "/weather-icons/snowy.svg",
+  "03d": "/weather-icons/partly-cloudy.svg",
+  "03n": "/weather-icons/partly-cloudy-night.svg",
+  "04d": "/weather-icons/cloudy.svg",
+  "04n": "/weather-icons/cloudy.svg",
+  "01d": "/weather-icons/sunny.svg",
+  "01n": "/weather-icons/clear-night.svg",
+  "50d": "/weather-icons/foggy.svg",
+  "50n": "/weather-icons/foggy.svg",
+};
+
+export const getWeatherImage = (
+  data: CurrentWeatherData | HourlyForecastItem | DailyForecastItem
+): string | undefined => {
+  const key =
+    data.weather[0].icon in weatherImageMap
+      ? (data.weather[0].icon as keyof typeof weatherImageMap)
+      : undefined;
+
+  return key ? weatherImageMap[key] : undefined;
+};

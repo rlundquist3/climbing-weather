@@ -1,6 +1,6 @@
 ---
 import type { CurrentWeatherData } from "../util/weather-data-types";
-import { mmToIn } from "../util/mappers";
+import { getWeatherImage, mmToIn, weatherImageMap } from "../util/mappers";
 import Thermometer from "./data/Thermometer.astro";
 import Precipitation from "./data/Precipitation.astro";
 import Wind from "./data/Wind.astro";
@@ -11,11 +11,22 @@ import CloudCover from "./data/CloudCover.astro";
 type Props = { data: CurrentWeatherData & { precip: number } };
 
 const { data } = Astro.props;
+const weatherImage: string | undefined = getWeatherImage(data);
 ---
 
 <div class="current-weather-container">
-  <h3>Current</h3>
-  <p>{data.weather[0].description}</p>
+  <div class="header">
+    <div>
+      <h3>Current:</h3>
+      <h4>{data.weather[0].description}</h4>
+    </div>
+    {
+      weatherImage && (
+        <img src={weatherImage} alt={data.weather[0].description} />
+      )
+    }
+  </div>
+
   <div class="inner-container">
     <Thermometer value={data.temp} feelsLike={data.feels_like} type="current" />
     <Precipitation label="precip today" value={mmToIn(data.precip)} />
@@ -29,6 +40,17 @@ const { data } = Astro.props;
 
 <style lang="scss">
   .current-weather-container {
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+  }
+  h3 {
+    margin-bottom: 0;
+  }
+  h4 {
+    margin-top: 0;
   }
   .inner-container {
     display: flex;
