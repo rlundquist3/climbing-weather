@@ -1,0 +1,84 @@
+---
+type Entry = {
+  value: number;
+  label: string;
+  feelsLike?: number;
+};
+type Props = {
+  entries: Entry[];
+};
+const { entries } = Astro.props;
+const {
+  labels,
+  values,
+  feels,
+}: {
+  labels: string[];
+  values: string[];
+  feels: string[];
+} = entries.reduce(
+  (acc, { label, value, feelsLike }) => {
+    return {
+      labels: [...acc.labels, label],
+      values: [...acc.values, `${value.toFixed(0)}°F`],
+      feels: [...acc.feels, feelsLike ? `${feelsLike.toFixed(0)}°F` : "?"],
+    };
+  },
+  {
+    labels: [""],
+    values: ["temp"],
+    feels: ["feel"],
+  }
+);
+---
+
+<div class="container">
+  <table>
+    <tr
+      >{
+        labels.map((label, index) => (
+          <th class={index === 0 ? "empty" : undefined}>{label}</th>
+        ))
+      }</tr
+    >
+    <tr>
+      {
+        values.map((value, index) => (
+          <td class={index === 0 ? "label" : "data"}>{value}</td>
+        ))
+      }
+    </tr>
+    <tr>
+      {
+        feels.map((value, index) => (
+          <td class={index === 0 ? "label" : "data"}>{value}</td>
+        ))
+      }
+    </tr>
+  </table>
+</div>
+
+<style>
+  div.container {
+  }
+  table {
+    font-size: 0.5rem;
+    th,
+    td {
+      border: 0.2px solid white;
+      text-align: right;
+      width: 40px;
+
+      &.empty {
+        border: none;
+      }
+      &.label {
+        font-weight: bold;
+      }
+      &.data {
+        color: #6be89f;
+        font-family: Doto;
+      }
+    }
+  }
+</style>

@@ -11,6 +11,7 @@ import {
   DataContainer,
   Humidity,
   Precipitation,
+  TemperatureTable,
   TextData,
   Thermometer,
   UVIndex,
@@ -72,15 +73,24 @@ const tempKeyMap: {
 
   <DataContainer>
     {
-      orderedTemperatureKeys.map((key) => (
-        <Thermometer
-          value={data.temp[key]}
-          feelsLike={data.feels_like[key]}
-          type={tempKeyMap[key].type}
-          label={tempKeyMap[key].label}
-        />
-      ))
+      orderedTemperatureKeys
+        .slice(0, 2)
+        .map((key) => (
+          <Thermometer
+            value={data.temp[key]}
+            feelsLike={data.feels_like[key]}
+            type={tempKeyMap[key].type}
+            label={tempKeyMap[key].label}
+          />
+        ))
     }
+    <TemperatureTable
+      entries={orderedTemperatureKeys.slice(2).map((key) => ({
+        label: tempKeyMap[key].label,
+        value: data.temp[key],
+        feelsLike: data.feels_like[key],
+      }))}
+    />
     {isFinite(data.pop) && <ChancePrecip value={data.pop} />}
     {
       isFinite(data.rain) && (
