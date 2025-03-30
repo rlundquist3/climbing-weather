@@ -704,6 +704,13 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.3.0.tgz#d06bbb384ebcf6c505fde1c3d0ed4ddffe0aaff8"
   integrity sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==
 
+"@upstash/redis@^1.34.6":
+  version "1.34.6"
+  resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.34.6.tgz#b5e879f7dd17ff2dc123d7dacc1e008066988a15"
+  integrity sha512-/ic+NszsXyIl2P8aExL7xETxgmzyhn6txG4senGDgd524bypGEJs1TMzLDeOV+PFVuacc10wZVJLIj6aRZZNaw==
+  dependencies:
+    crypto-js "^4.2.0"
+
 "@urql/core@^5.1.0":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-5.1.1.tgz#d83c405451806a5936dabbd3f10a22967199e2f5"
@@ -1082,6 +1089,11 @@ crossws@^0.3.3:
   integrity sha512-uj0O1ETYX1Bh6uSgktfPvwDiPYGQ3aI4qVsaC/LWpkIzGj1nUYm5FK3K+t11oOlpN01lGbprFCH4wBlKdJjVgw==
   dependencies:
     uncrypto "^0.1.3"
+
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 cssesc@^3.0.0:
   version "3.0.0"

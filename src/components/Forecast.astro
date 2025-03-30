@@ -2,23 +2,40 @@
 import type {
   HourlyForecastItem,
   DailyForecastItem,
+  ForecastData,
 } from "../util/weather-data-types";
 import DailyForecast from "./DailyForecast.astro";
 import HourlyForecast from "./HourlyForecast.astro";
 
-type Props = { hourly: HourlyForecastItem[]; daily: DailyForecastItem[] };
+type Props = {
+  hourly: HourlyForecastItem[];
+  daily: DailyForecastItem[];
+  timezone: ForecastData["timezone"];
+};
 
-const { hourly, daily } = Astro.props;
+const { hourly, daily, timezone } = Astro.props;
 ---
 
 <div class="forecast-container">
   <h3>Next 12 Hours</h3>
   <div class="hourly-forecast-container">
-    {hourly.slice(0, 13).map((data) => <HourlyForecast data={data} />)}
+    {
+      hourly
+        .slice(0, 13)
+        .map((data) => <HourlyForecast data={data} timezone={timezone} />)
+    }
   </div>
   <h3>Next 7 Days</h3>
   <div class="daily-forecast-container">
-    {daily.map((data, index) => <DailyForecast data={data}) label={index === 0 ? 'Tomorrow' : undefined} />)}
+    {
+      daily.map((data, index) => (
+        <DailyForecast
+          data={data}
+          label={index === 0 ? "Tomorrow" : undefined}
+          timezone={timezone}
+        />
+      ))
+    }
   </div>
 </div>
 

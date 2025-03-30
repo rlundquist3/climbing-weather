@@ -1,5 +1,8 @@
 ---
-import type { DailyForecastItem } from "../util/weather-data-types";
+import type {
+  DailyForecastItem,
+  ForecastData,
+} from "../util/weather-data-types";
 import { getWeatherImage, mmToIn, weatherImageMap } from "../util/mappers";
 import { DateTime } from "luxon";
 import DataContainer from "./data/DataContainer.astro";
@@ -12,9 +15,16 @@ import UVIndex from "./data/UVIndex.astro";
 import Wind from "./data/Wind.astro";
 import ChancePrecip from "./data/ChancePrecip.astro";
 
-type Props = { data: DailyForecastItem; label?: string };
+type Props = {
+  data: DailyForecastItem;
+  timezone: ForecastData["timezone"];
+  label?: string;
+};
 
-const { data, label } = Astro.props;
+const { data, timezone, label } = Astro.props;
+const time = DateTime.fromSeconds(data.dt, { zone: timezone }).toLocaleString(
+  DateTime.DATE_MED_WITH_WEEKDAY
+);
 const weatherImage: string | undefined = getWeatherImage(data);
 
 const orderedTemperatureKeys: (keyof DailyForecastItem["temp"])[] = [
@@ -45,18 +55,8 @@ const tempKeyMap: {
   <div class="header">
     <div>
       <h3>
-        <time
-          datetime={DateTime.fromSeconds(data.dt).toLocaleString(
-            DateTime.DATE_FULL
-          )}
-          >{
-            label ??
-              DateTime.fromSeconds(data.dt)
-                .toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
-                .split(",")
-                .slice(0, -1)
-                .join(",")
-          }:</time
+        <time datetime={time}
+          >{label ?? time.split(",").slice(0, -1).join(",")}:</time
         >
       </h3>
       <h4>{data.weather[0].description}</h4>

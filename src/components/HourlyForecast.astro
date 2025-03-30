@@ -1,20 +1,25 @@
 ---
-import type { HourlyForecastItem } from "../util/weather-data-types";
-import { getWeatherImage, mmToIn, weatherImageMap } from "../util/mappers";
+import type {
+  ForecastData,
+  HourlyForecastItem,
+} from "../util/weather-data-types";
+import { getWeatherImage, mmToIn } from "../util/mappers";
 import { DateTime } from "luxon";
 import DataContainer from "./data/DataContainer.astro";
 import Thermometer from "./data/Thermometer.astro";
 import Precipitation from "./data/Precipitation.astro";
-import TextData from "./data/TextData.astro";
 import Wind from "./data/Wind.astro";
 import CloudCover from "./data/CloudCover.astro";
 import Humidity from "./data/Humidity.astro";
 import UVIndex from "./data/UVIndex.astro";
 import ChancePrecip from "./data/ChancePrecip.astro";
 
-type Props = { data: HourlyForecastItem };
+type Props = { data: HourlyForecastItem; timezone: ForecastData["timezone"] };
 
-const { data } = Astro.props;
+const { data, timezone } = Astro.props;
+const time = DateTime.fromSeconds(data.dt, {
+  zone: timezone,
+}).toLocaleString(DateTime.TIME_24_SIMPLE);
 const weatherImage: string | undefined = getWeatherImage(data);
 ---
 
@@ -22,16 +27,7 @@ const weatherImage: string | undefined = getWeatherImage(data);
   <div class="header">
     <div>
       <h3>
-        <time
-          datetime={DateTime.fromSeconds(data.dt).toLocaleString(
-            DateTime.TIME_24_SIMPLE
-          )}
-          >{
-            DateTime.fromSeconds(data.dt).toLocaleString(
-              DateTime.TIME_24_SIMPLE
-            )
-          }:</time
-        >
+        <time datetime={time}>{time}:</time>
       </h3>
       <h4>{data.weather[0].description}</h4>
     </div>

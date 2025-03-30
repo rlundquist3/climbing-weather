@@ -11,12 +11,13 @@ import DataContainer from "./data/DataContainer.astro";
 type Props = { data: PastWeatherDayData; label?: string };
 
 const { data, label } = Astro.props;
+const time = DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
 ---
 
 <div class="past-weather-day">
   <h3>
-    <time datetime={data.date}
-      >{label ?? DateTime.fromISO(data.date).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)
+    <time datetime={time}
+      >{label ?? time
         .split(",")
         .slice(0, -1)
         .join(",")

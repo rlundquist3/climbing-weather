@@ -40,6 +40,7 @@ const precipToday =
 
 <Layout>
   <h1>Weather for: <TextData>{area.name}</TextData></h1>
+  <h3>All times in local time: <TextData>{forecast.timezone}</TextData></h3>
   <CurrentWeather data={{ ...forecast.current, precip: precipToday }} />
   <hr />
   <h3>Past 3 Days</h3>
@@ -58,20 +59,12 @@ const precipToday =
     }
   </div>
   <hr />
-  <Forecast hourly={forecast.hourly} daily={forecast.daily} />
+  <Forecast
+    hourly={forecast.hourly}
+    daily={forecast.daily}
+    timezone={forecast.timezone}
+  />
 </Layout>
-
-<script>
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  fetch("/api/set-timezone", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ timezone: userTimeZone }),
-  });
-</script>
 
 <style lang="scss">
   .past-weather-container {
