@@ -37,16 +37,20 @@ const weatherImage: string | undefined = getWeatherImage(data);
     <Precipitation label="precip today" value={mmToIn(data.precip)} />
     <Humidity value={data.humidity} } />
     <Thermometer value={data.dew_point} type="dew point" />
-    <CloudCover value={data.clouds} />
     <UVIndex value={data.uvi} />
     <Wind direction={data.wind_deg} speed={data.wind_speed} />
+    <CloudCover value={data.clouds} />
   </div>
 </div>
 
 <style lang="scss">
   .current-weather-container {
+    border-radius: 8px;
+    box-shadow: 4px 4px 12px #000000;
+    margin: 0.5rem;
+    max-height: calc(100% - 2rem);
     max-width: calc(100vw - 2rem);
-    overflow-x: auto;
+    padding: 0 1rem 1rem;
   }
   .header {
     display: flex;
@@ -61,5 +65,7 @@ const weatherImage: string | undefined = getWeatherImage(data);
   }
   .inner-container {
     display: flex;
+    flex-wrap: wrap;
+    grid-gap: 1rem;
   }
 </style>
