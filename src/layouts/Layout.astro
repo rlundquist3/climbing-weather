@@ -12,9 +12,10 @@
     />
 
     <meta name="generator" content={Astro.generator} />
-    <title>Weather</title>
+    <title>Climbing Weather</title>
   </head>
   <body>
+    <h1><a class="home-link" href="/">Climbing Weather</a></h1>
     <slot />
   </body>
 </html>
@@ -45,6 +46,14 @@
 
     &:visited {
       color: #eaa7ff;
+    }
+  }
+
+  a.home-link {
+    color: #e9e9e9;
+    text-decoration: none;
+    &:visited {
+      color: #e9e9e9;
     }
   }
 </style>
