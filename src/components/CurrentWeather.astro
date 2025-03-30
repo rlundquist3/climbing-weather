@@ -40,6 +40,8 @@ const weatherImage: string | undefined = getWeatherImage(data);
 
 <style lang="scss">
   .current-weather-container {
+    max-width: calc(100vw - 2rem);
+    overflow-x: auto;
   }
   .header {
     display: flex;
