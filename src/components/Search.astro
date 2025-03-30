@@ -3,13 +3,20 @@
     class="area-input"
     name="input"
     type="search"
+    placeholder="Search for your climbing area..."
     hx-get="/api/search"
     hx-target="#search-results"
   />
-  <ul id="search-results"></ul>
+  <div id="search-results"></div>
 </div>
 
-<style lang="scss">
-  .search-results {
+<style is:inline>
+  .area-input {
+    font-size: 1.5rem;
+    width: 80%;
+  }
+  .no-results {
+    color: #ff5f3f;
+    font-size: 0.75rem;
   }
 </style>

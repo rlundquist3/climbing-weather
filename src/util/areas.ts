@@ -2,6 +2,7 @@ export type Area = {
   slug: string;
   name: string;
   parent?: string;
+  ancestors?: string;
   lat: number;
   lng: number;
 };
