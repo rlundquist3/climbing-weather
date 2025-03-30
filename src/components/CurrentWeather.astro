@@ -1,12 +1,17 @@
 ---
 import type { CurrentWeatherData } from "../util/weather-data-types";
-import { getWeatherImage, mmToIn, weatherImageMap } from "../util/mappers";
-import Thermometer from "./data/Thermometer.astro";
-import Precipitation from "./data/Precipitation.astro";
-import Wind from "./data/Wind.astro";
-import Humidity from "./data/Humidity.astro";
-import UVIndex from "./data/UVIndex.astro";
-import CloudCover from "./data/CloudCover.astro";
+import { getWeatherImage, mmToIn } from "../util/mappers";
+import {
+  ChancePrecip,
+  CloudCover,
+  DataContainer,
+  Humidity,
+  Precipitation,
+  TextData,
+  Thermometer,
+  UVIndex,
+  Wind,
+} from "./data";
 
 type Props = { data: CurrentWeatherData & { precip: number } };
 
@@ -18,7 +23,7 @@ const weatherImage: string | undefined = getWeatherImage(data);
   <div class="header">
     <div>
       <h3>Current:</h3>
-      <h4>{data.weather[0].description}</h4>
+      <h4><TextData>{data.weather[0].description}</TextData></h4>
     </div>
     {
       weatherImage && (

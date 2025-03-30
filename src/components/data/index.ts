@@ -1,3 +1,21 @@
+import ChancePrecip from "./ChancePrecip.astro";
+import CloudCover from "./CloudCover.astro";
+import DataContainer from "./DataContainer.astro";
+import Humidity from "./Humidity.astro";
+import Precipitation from "./Precipitation.astro";
 import TextData from "./TextData.astro";
+import Thermometer from "./Thermometer.astro";
+import UVIndex from "./UVIndex.astro";
+import Wind from "./Wind.astro";
 
-export { TextData };
+export {
+  ChancePrecip,
+  CloudCover,
+  DataContainer,
+  Humidity,
+  Precipitation,
+  TextData,
+  Thermometer,
+  UVIndex,
+  Wind,
+};

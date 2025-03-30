@@ -5,14 +5,17 @@ import type {
 } from "../util/weather-data-types";
 import { getWeatherImage, mmToIn } from "../util/mappers";
 import { DateTime } from "luxon";
-import DataContainer from "./data/DataContainer.astro";
-import Thermometer from "./data/Thermometer.astro";
-import Precipitation from "./data/Precipitation.astro";
-import Wind from "./data/Wind.astro";
-import CloudCover from "./data/CloudCover.astro";
-import Humidity from "./data/Humidity.astro";
-import UVIndex from "./data/UVIndex.astro";
-import ChancePrecip from "./data/ChancePrecip.astro";
+import {
+  ChancePrecip,
+  CloudCover,
+  DataContainer,
+  Humidity,
+  Precipitation,
+  TextData,
+  Thermometer,
+  UVIndex,
+  Wind,
+} from "./data";
 
 type Props = { data: HourlyForecastItem; timezone: ForecastData["timezone"] };
 
@@ -29,7 +32,7 @@ const weatherImage: string | undefined = getWeatherImage(data);
       <h3>
         <time datetime={time}>{time}:</time>
       </h3>
-      <h4>{data.weather[0].description}</h4>
+      <h4><TextData>{data.weather[0].description}</TextData></h4>
     </div>
     {
       weatherImage && (

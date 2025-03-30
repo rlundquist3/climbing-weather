@@ -7,6 +7,7 @@ import type { Area } from "../util/areas";
 const groupedAreas: { [key: string]: Area[] } = groupBy(areas, "parent");
 ---
 
+<h3>Popular Areas</h3>
 <div>
   {
     orderBy(Object.entries(groupedAreas), [0]).map(
