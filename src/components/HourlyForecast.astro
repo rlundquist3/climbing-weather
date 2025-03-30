@@ -10,6 +10,7 @@ import Wind from "./data/Wind.astro";
 import CloudCover from "./data/CloudCover.astro";
 import Humidity from "./data/Humidity.astro";
 import UVIndex from "./data/UVIndex.astro";
+import ChancePrecip from "./data/ChancePrecip.astro";
 
 type Props = { data: HourlyForecastItem };
 
@@ -43,17 +44,7 @@ const weatherImage: string | undefined = getWeatherImage(data);
 
   <DataContainer>
     <Thermometer value={data.temp} feelsLike={data.feels_like} type="current" />
-    {
-      isFinite(data.pop) && (
-        <div>
-          <>
-            <label style={{ fontSize: "0.75rem" }}>chance precip:</label>
-            <br />
-          </>
-          <TextData>{data.pop * 100}%</TextData>
-        </div>
-      )
-    }
+    {isFinite(data.pop) && <ChancePrecip value={data.pop} />}
     {
       isFinite(data.rain?.["1h"]) && (
         <Precipitation label="rain" value={mmToIn(data.rain["1h"])} />
