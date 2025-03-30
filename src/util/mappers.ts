@@ -61,6 +61,8 @@ export const weatherImageMap = {
   "11n": "/weather-icons/thunderstorm.svg",
   "13d": "/weather-icons/snowy.svg",
   "13n": "/weather-icons/snowy.svg",
+  "02d": "/weather-icons/partly-cloudy.svg",
+  "02n": "/weather-icons/partly-cloudy-night.svg",
   "03d": "/weather-icons/partly-cloudy.svg",
   "03n": "/weather-icons/partly-cloudy-night.svg",
   "04d": "/weather-icons/cloudy.svg",
