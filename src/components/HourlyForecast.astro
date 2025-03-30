@@ -43,17 +43,22 @@ const weatherImage: string | undefined = getWeatherImage(data);
 
   <DataContainer>
     <Thermometer value={data.temp} feelsLike={data.feels_like} type="current" />
-    {isFinite(data.pop) && <ChancePrecip value={data.pop} />}
-    {
-      isFinite(data.rain?.["1h"]) && (
-        <Precipitation label="rain" value={mmToIn(data.rain["1h"])} />
-      )
-    }
-    {
-      isFinite(data.snow?.["1h"]) && (
-        <Precipitation label="snow" value={mmToIn(data.snow["1h"])} />
-      )
-    }
+    <div class="precip-container">
+      {isFinite(data.pop) && <ChancePrecip value={data.pop} />}
+      <div>
+        {
+          isFinite(data.rain?.["1h"]) && (
+            <Precipitation label="rain" value={mmToIn(data.rain["1h"])} />
+          )
+        }
+        {
+          isFinite(data.snow?.["1h"]) && (
+            <Precipitation label="snow" value={mmToIn(data.snow["1h"])} />
+          )
+        }
+      </div>
+    </div>
+
     <Humidity value={data.humidity} } />
     <Thermometer value={data.dew_point} type="dew point" />
     <UVIndex value={data.uvi} />
@@ -79,5 +84,18 @@ const weatherImage: string | undefined = getWeatherImage(data);
   }
   h4 {
     margin-top: 0;
+  }
+  .precip-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      height: 120px;
+      justify-content: space-around;
+    }
   }
 </style>
