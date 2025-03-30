@@ -1,0 +1,15 @@
+---
+import TextData from "./TextData.astro";
+
+type Props = { value: number };
+
+const { value } = Astro.props;
+---
+
+<div>
+  <>
+    <label style={{ fontSize: "0.75rem" }}>chance precip:</label>
+    <br />
+  </>
+  <TextData>{(value * 100).toFixed(0)}%</TextData>
+</div>
